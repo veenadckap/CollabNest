@@ -15,9 +15,6 @@
 </head>
 <body class="bg-[#f8fafc] text-gray-900 min-h-screen flex">
 
-  <!-- Sidebar -->
-  @include('layout.aside')
-
   <!-- Main Content -->
   <div class="max-w-4xl mx-auto p-6 space-y-6 w-full">
 

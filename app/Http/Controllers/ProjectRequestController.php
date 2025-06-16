@@ -67,7 +67,7 @@ class ProjectRequestController extends Controller
             'project_description' => $project->description,
         ]);
 
-        return redirect('/team')->with('success', 'Request accepted and team updated!');
+        return redirect('/viewProject')->with('success', 'Request accepted and team updated!');
     }
 
     public function rejectRequest(Request $request, $id)

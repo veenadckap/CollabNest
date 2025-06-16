@@ -167,7 +167,7 @@ class ProjectController extends Controller
                 
             }
         }
-        dd($document_path);
+
 
         // Convert skills string to IDs
         $skills = [];

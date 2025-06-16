@@ -132,4 +132,4 @@
 </div>
 @endsection
 
-<!-- Add this to your <head> if Alpine.js is not already loaded -->
+
