@@ -11,7 +11,8 @@ use App\Models\Skill;
 use App\Mail\ProjectRequestMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Task;
-use Dom\Document;
+use Illuminate\Support\Facades\Hash;
+use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 
 class ProjectController extends Controller
 {
@@ -87,7 +88,7 @@ class ProjectController extends Controller
 
         Project::create($validated);
 
-        return redirect()->route('projects')->with('success', 'Project created!');
+        return redirect()->route('navMyProject')->with('success', 'Project created succesfully!');
     }
 
         public function viewProject(Project $project)
@@ -167,8 +168,7 @@ class ProjectController extends Controller
                 
             }
         }
-
-
+      
         // Convert skills string to IDs
         $skills = [];
         $skillList = array_filter(array_map('trim', explode(',', $request->technical_skills)));
@@ -198,10 +198,17 @@ class ProjectController extends Controller
         Project::where('id',$id)->update($update);
 
         return redirect()->route('navMyProject')->with('success','Project updated successfully');
+    }
+
+    public function deleteProject(Request $request){
+    
+        if(Hash::check($request->password,Auth::user()->password)){
+            Project::where('id',$request->id)->delete();
+            return ['success'=>'Project deleted success fully'];
+        }else{
+            return ['error','Incorrect password'];
         }
-
-
-
-
+       
+    }
 
 }

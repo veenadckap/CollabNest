@@ -37,6 +37,7 @@
       <div class="flex flex-col md:flex-row gap-10 items-start">
         <!-- Left: Profile Image & Resume -->
         <div class="flex flex-col items-center gap-6 w-full md:w-1/3">
+
           @php
             $settings = json_decode($skills->profile_settings, true);
             $imagePath = $settings['image'] ?? null;
@@ -75,10 +76,10 @@
         <div class="flex-1 space-y-6">
           <!-- Name & Professions -->
           <div>
-            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">{{ Auth::user()->name }}</h1>
+            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">{{ isset($userProfile['first_name']) ? $userProfile['first_name'].' '.$userProfile['last_name'] : \App\Models\User::where('id',$id)->value('name') }}</h1>
             <div class="mt-3 flex flex-wrap gap-2">
               @php 
-                $professions_id = \App\Models\UserTag::where('user_id',Auth::user()->id)->where('tag_model','profession')->pluck('tag_id');
+                $professions_id = \App\Models\UserTag::where('user_id',$id)->where('tag_model','profession')->pluck('tag_id');
               @endphp
               
               @foreach($professions_id ?? [] as $n)
@@ -95,13 +96,13 @@
             @endphp
 
             <p class="text-gray-500 text-xs font-medium mb-1">User ID</p>
-            <p class="font-semibold text-gray-700">{{ Hashids::encode(Auth::user()->id) }}</p>
+            <p class="font-semibold text-gray-700">{{ Hashids::encode($id) }}</p>
 
             </div>
             <div class="bg-gray-50 p-3 rounded-lg">
                 @php
                     $tech_skill = [];
-                    $tech_skill_id = \App\Models\UserTag::where('user_id',Auth::user()->id)->where('tag_model','tech_skill')->pluck('tag_id');
+                    $tech_skill_id = \App\Models\UserTag::where('user_id',$id)->where('tag_model','tech_skill')->pluck('tag_id');
 
                         foreach ($tech_skill_id ?? [] as $skill_id) {
                             $tech_skill[] = \App\Models\Skill::where('id', $skill_id)->value('skill');
@@ -115,7 +116,7 @@
             </div>
 
             @php 
-              $soft_skills_id = \App\Models\UserTag::where('user_id',Auth::user()->id)->where('tag_model','tech_skill')->pluck('tag_id');
+              $soft_skills_id = \App\Models\UserTag::where('user_id',$id)->where('tag_model','tech_skill')->pluck('tag_id');
               $soft_skills=[];
               foreach($soft_skills_id ?? [] as $soft_skill){
                 $soft_skills[]=\App\Models\SoftSkill::where('id',$soft_skill)->value('soft_skills');
@@ -131,7 +132,7 @@
             </div>
             @php
               $interests =[];
-              $interests_id = \App\Models\UserTag::where('user_id',Auth::user()->id)->where('tag_model','interest')->pluck('tag_id');
+              $interests_id = \App\Models\UserTag::where('user_id',$id)->where('tag_model','interest')->pluck('tag_id');
           
               foreach($interests_id as $int){
                 $interests[]=\App\Models\Interest::where('id',$int)->value('interest');
@@ -150,8 +151,27 @@
               <p class="text-gray-500 text-xs font-medium mb-1">Experience</p>
               <p class="font-semibold text-gray-700">{{ $settings['years_of_experience'] ?? 'Not specified' }} years</p>
             </div>
+            
+            <!-- Added Date of Birth Field -->
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <p class="text-gray-500 text-xs font-medium mb-1">Date of Birth</p>
+              <p class="font-semibold text-gray-700">{{ $settings['dob'] ?? 'Not specified' }}</p>
+            </div>
+            
+            <!-- Added Mobile Number Field -->
+             @if($skills->user_id === Auth::user()->id)
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <p class="text-gray-500 text-xs font-medium mb-1">Mobile Number</p>
+              <p class="font-semibold text-gray-700">{{ $settings['mobile'] ?? 'Not specified' }}</p>
+            </div>
+            
+            <!-- Added Address Field -->
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <p class="text-gray-500 text-xs font-medium mb-1">Address</p>
+              <p class="font-semibold text-gray-700">{{ $settings['address'] ?? 'Not specified' }}</p>
+            </div>
           </div>
-
+              @endif
           <!-- Bio -->
           <div class="bg-gray-50 p-4 rounded-lg">
             <p class="text-gray-500 text-xs font-medium mb-2">About Me</p>
@@ -200,7 +220,7 @@
           <!-- Button -->
           @if($skills->user_id === Auth::user()->id)
           <div class="pt-2">
-            <a href="/profile/edit" class="inline-flex items-center bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-medium px-6 py-3 rounded-lg shadow-sm transition-all text-sm">
+            <a href="/navProfile/edit" class="inline-flex items-center bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-medium px-6 py-3 rounded-lg shadow-sm transition-all text-sm">
               <i class="fas fa-user-edit mr-2"></i>
               Update Profile
             </a>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,37 @@
     </style>
 </head>
 <body class="bg-gray-50 font-sans antialiased">
+=======
+<aside class=" bg-white border-r border-gray-200 flex flex-col justify-between " style="width: 25%;">
+  <div>
+    <div class=" h-100; flex items-center " style="padding: 0px 40px 0px 5px;">
+      <div class="w-100 h-auto rounded overflow-hidden">
+        <img
+          src="assets/logo.png"
+          alt="CollabNest Logo"
+          class="w-full h-full object-contain"
+        />
+      </div>
+      <a class="text-indigo-700 font-semibold text-lg" href="#">CollabNest</a>
+    </div>
+    <div class="px-6 mb-6">
+      <a href="/profile/{{Auth::user()->id}}">
+        <div class="flex items-center space-x-4 bg-gray-100 rounded-lg py-3 px-4">
+          @php
+            $profile = App\Models\UserProfile::where('user_id',Auth::user()->id)->first();
+            $userProfile = json_decode($profile->profile_settings,true);
+            $image = $userProfile['image'] ?? [];
+          @endphp
+          <img alt="Profile" class="rounded-full w-10 h-10 object-cover" src="{{ $image ? asset('storage/'. $image) : 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name).'&color=7F9CF5&background=EBF4FF'}}" />
+          <div>
+            <p class="font-semibold text-gray-900 text-sm leading-tight">{{ isset($userProfile['first_name']) ? $userProfile['first_name'].' '.$userProfile['last_name'] : Auth::user()->name}}</p>
+            <p class="text-gray-500 text-xs leading-tight">{{ Auth::user()->email }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <nav class="flex flex-col space-y-2 px-6 text-sm font-semibold">
+>>>>>>> b50ca53684946671a86160ff5a873913343ed07a
 
     <!-- Sidebar Container -->
     <div class="flex min-h-screen">
@@ -31,6 +63,7 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             <!-- User Profile -->
             <div class="px-6 py-4">
                 <a href="/profile" class="group">
@@ -52,6 +85,13 @@
                     </div>
                 </a>
             </div>
+=======
+  <a href="{{ route('navUsers') }}"
+     class="flex items-center space-x-2 py-2 px-3 rounded-md 
+            {{ request()->routeIs('navUsers') ? 'bg-indigo-100 text-indigo-700' : 'hover:bg-gray-100 text-gray-900' }}">
+    <i class="fas fa-users"></i><span>Users</span>
+  </a>
+>>>>>>> b50ca53684946671a86160ff5a873913343ed07a
 
             <!-- Navigation Menu -->
             <nav class="flex-1 overflow-y-auto px-3 py-2">

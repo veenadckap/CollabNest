@@ -19,7 +19,22 @@
   @include('layout.aside')
 
 
+  
   <main class="flex-1 h-screen overflow-y-auto p-6">
+
+    @if(session('success'))
+        <div
+            x-data = "{show:true}"
+            x-init = "setTimeout(()=>show=false,3000)"
+            x-show="show"
+            x-transition
+            class="bg-emerald-50 text-emerald-700 text-sm absolute top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg border border-emerald-100 flex items-center gap-2">
+            <i class="fas fa-check-circle"></i>
+            {{ session('success') }}
+        </div>
+    @endif
+    
+
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-semibold">My Projects</h1>
       <a href="/navcreateproject" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md transition">

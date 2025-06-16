@@ -12,23 +12,25 @@ use App\Models\Interest;
 use App\Models\Skill;
 use App\Models\UserTag;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 
 class UsersController extends Controller
 {
-    public function NavUsers(){
-        $skills = UserProfile::where('user_id',Auth::user()->id)->first();
+    public function profile($id){
+        $skills = UserProfile::where('user_id',$id)->first();
       
-        return view('user_profile',compact('skills'));
+        return view('user_profile',compact('skills','id'));
     }
 
     public function navedit(){
+     
         $skills = UserProfile::where('user_id',Auth::user()->id)->first();
         return view('profile_update',compact('skills'));
     }
 
         public function profileUpdate(Request $request)
-                {
+            {
 
             $request->validate([
             'technical_skills'      => 'required',
@@ -101,6 +103,11 @@ class UsersController extends Controller
             $data->linkedin             = trim($request->linkedin ?? $data->linkedin ?? null);
             $data->github               = trim($request->github ?? $data->github ?? null);
             $data->leetcode             = trim($request->leetcode ?? $data->leetcode ?? null );
+            $data->address              = trim($request->address ?? $data->address ?? null);
+            $data->mobile               = $request->mobile ?? $data->mobile ?? null;
+            $data->dob                  = $request->dob ?? $data->dob ?? null;
+            $data->first_name            = $request->first_name ?? $data->first_name ?? null;
+            $data->last_name             = $request->last_name ?? $data->last_name ?? null;
 
   
     if($request->hasFile('profile_image')){
@@ -123,16 +130,18 @@ class UsersController extends Controller
         $data->resume = $resume_path;
     }
 
-    
-     
        UserProfile::updateOrCreate(
                 ['user_id' => Auth::id()], 
                 ['profile_settings' => json_encode($data)]
             );
 
 
-        return redirect('/profile')->with('success', 'Profile updated successfully.');
+        return redirect("/profile/" . Auth::user()->id)->with('success', 'Profile updated successfully.');
     }
 
- 
+
+    public function navUsers(){
+        $users = User::all();
+        return view('publicUsers',compact('users'));
+    }
 }

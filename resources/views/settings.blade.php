@@ -33,41 +33,75 @@
           <span x-show="darkMode"><i class="fas fa-sun"></i></span>
         </button>
       </div>
-      <form method="POST" action="{{ route('settings.update') }}">
-        @csrf
-        @method('PUT')
-        <!-- Display Name -->
-        <div class="mb-4">
-          <label class="block font-bold mb-2" for="display_name">Display Name</label>
-          <input type="text" id="display_name" name="display_name" value="{{ old('display_name', Auth::user()->name) }}"
-                 class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-900 dark:text-white dark:border-gray-700 dark:placeholder-gray-400"/>
-        </div>
-        <!-- Email -->
-        <div class="mb-4">
-          <label class="block font-bold mb-2" for="email">Email</label>
-          <input type="email" id="email" name="email" value="{{ old('email', Auth::user()->email) }}"
-                 class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-900 dark:text-white dark:border-gray-700 dark:placeholder-gray-400"/>
-        </div>
-        <!-- Change Password -->
-        <div class="mb-4">
-          <label class="block font-bold mb-2" for="password">New Password</label>
-          <input type="password" id="password" name="password"
-                 class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-900 dark:text-white dark:border-gray-700 dark:placeholder-gray-400" placeholder="Leave blank to keep current"/>
-        </div>
-        <!-- Notification Settings (example) -->
-        <div class="mb-4">
-          <label class="block font-bold mb-2">Notifications</label>
-          <label class="inline-flex items-center">
-            <input type="checkbox" name="email_notifications" class="form-checkbox" {{ Auth::user()->email_notifications ? 'checked' : '' }}>
-            <span class="ml-2">Enable Email Notifications</span>
-          </label>
-        </div>
-        <!-- Add more settings fields as needed -->
+     <!-- Inside your form -->
+<form method="POST" action="{{ route('settings.update') }}">
+  @csrf
+  @method('PUT')
 
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Save Changes
-        </button>
-      </form>
+  <!-- Display Name -->
+  <div class="mb-4">
+    <label class="block font-bold mb-2" for="display_name">Display Name</label>
+    <input type="text" id="display_name" name="display_name" value="{{ old('display_name', Auth::user()->name) }}"
+           class="input-field" />
+  </div>
+
+  <!-- Email -->
+  <div class="mb-4">
+    <label class="block font-bold mb-2" for="email">Email</label>
+    <input type="email" id="email" name="email" value="{{ old('email', Auth::user()->email) }}"
+           class="input-field" />
+  </div>
+
+  <!-- Profession -->
+  <div class="mb-4">
+    <label class="block font-bold mb-2" for="profession">Profession</label>
+    <input type="text" id="profession" name="profession" value="{{ old('profession', Auth::user()->profession) }}"
+           class="input-field" />
+  </div>
+
+  <!-- Bio -->
+  <div class="mb-4">
+    <label class="block font-bold mb-2" for="bio">Bio</label>
+    <textarea id="bio" name="bio" rows="3"
+              class="input-field resize-none">{{ old('bio', Auth::user()->bio) }}</textarea>
+  </div>
+
+  <!-- Notification -->
+  <div class="mb-4">
+    <label class="block font-bold mb-2">Notifications</label>
+    <label class="inline-flex items-center">
+      <input type="checkbox" name="email_notifications" class="form-checkbox"
+             {{ Auth::user()->email_notifications ? 'checked' : '' }}>
+      <span class="ml-2">Enable Email Notifications</span>
+    </label>
+  </div>
+
+  <!-- Password Reset -->
+  <div class="border-t border-gray-300 dark:border-gray-700 pt-6 mt-6">
+    <h2 class="text-xl font-semibold mb-4">Change Password</h2>
+
+    <div class="mb-4">
+      <label class="block font-bold mb-2" for="current_password">Current Password</label>
+      <input type="password" id="current_password" name="current_password" class="input-field" />
+    </div>
+
+    <div class="mb-4">
+      <label class="block font-bold mb-2" for="new_password">New Password</label>
+      <input type="password" id="new_password" name="new_password" class="input-field" />
+    </div>
+
+    <div class="mb-4">
+      <label class="block font-bold mb-2" for="new_password_confirmation">Confirm New Password</label>
+      <input type="password" id="new_password_confirmation" name="new_password_confirmation" class="input-field" />
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Save Changes
+  </button>
+</form>
+
 
       <!-- Customer Support Section -->
       <div class="mt-10 border-t pt-6 dark:border-gray-700">

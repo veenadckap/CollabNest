@@ -11,7 +11,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\WelcomepageController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SkillsController;
-use App\Models\Skills;
+
 use App\Http\Controllers\ProjectRequestController;
 
 // Home page
@@ -50,6 +50,8 @@ Route::post('/CreateProject',[ProjectController::class,'CreateProject']);
 
 Route::get('/view/{project}',[ProjectController::class,'viewProject'])->name('viewProject');
 
+Route::post('/deleteProject',[ProjectController::class,'deleteProject'])->name('deleteProject');
+
 //MY project
 Route::get('/navMyProject',[ProjectController::class,'navMyProject'])->name('navMyProject');
 
@@ -78,13 +80,13 @@ Route::get('/find-talent', [WelcomepageController::class, 'findTalent'])->name('
 
 Route::get('/help', [WelcomepageController::class, 'help'])->name('help');
 
-Route::get('/users',[UsersController::class, 'NavUsers']);
+Route::get('/profile/{id}',[UsersController::class, 'profile']);
+
+Route::get('/navUsers',[UsersController::class,'navUsers'])->name('navUsers');
 
 Route::get('/verify', [Authentication::class, 'verify']);
 
-Route::get('/profile',[UsersController::class, 'NavUsers']);
-
-Route::get('/profile/edit',[UsersController::class, 'navedit']);
+Route::get('/navProfile/edit',[UsersController::class, 'navedit']);
 
 Route::post('/profile/update',[UsersController::class, 'profileUpdate']);
 
